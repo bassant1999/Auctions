@@ -1,0 +1,57 @@
+body {
+    padding: 10px;
+}
+
+/* catgeories */
+.items >div{
+    margin: 20px 5px;
+    border: 1px solid silver;
+}
+.images{
+    display: block;
+   margin-left: auto;
+   margin-right: auto;
+   width: 90%;
+   max-height: 300px;
+}
+.head a{
+    color:black;
+}
+.date{
+    color: silver;
+}
+.desc{
+    padding: 10px;
+}
+
+/* listing */
+.listing{
+    font-size: large;
+}
+.listing >div{
+    margin: 10px;
+}
+.listing >div >img{
+    width:400px;
+}
+.description{
+    font-weight: bold;
+}
+.price{
+    font-size: larger;
+}
+.comment{
+    border: 1px solid silver;
+    /* background-color: azure; */
+    padding: 10px;
+    margin: 10px;
+}
+.profile{
+    padding: 20px;
+}
+.notification{
+    padding: 20px;
+    border: 1px dotted silver;
+    color:black;
+    font-weight: 600;
+}

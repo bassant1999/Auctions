@@ -1,0 +1,29 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {% if user.is_authenticated %}  
+        <h2>Watchlist</h2>
+        <div class="container-fluid items">
+            {% for listing in watchlists reversed%}
+                <div class="row">
+                    {% if listing.listing.img_url.name != "0"  %}
+                            <div class="col-md-4">
+                                <img src="../../../media/{{listing.listing.img_url}}" alt ="image" class = "images">
+                                <!-- <img src = "../../static/images/{{listing.image_url}}" alt ="image" class = "images"> -->
+                            </div>
+                    {% endif %} 
+                    <div class="col-md-8 desc">
+                        <h3 class="head">
+                            <a href="{% url 'listing' listing.listing.id %}">{{listing.listing.title}}</a>
+                            <a class="btn btn-danger" href="{% url 'remove' listing.listing.id  user.id %}">Remove</a>
+                        </h3>
+                        <p><strong>Price: </strong>${{listing.listing.price}}</p>
+                        <p class="date">{{listing.listing.date}}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        Not signed in.
+    {% endif %}
+{% endblock %}

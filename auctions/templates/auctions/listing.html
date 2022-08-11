@@ -1,0 +1,80 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Auctions - Listing{% endblock %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+            <h1 style="margin-bottom:20px; color:rgb(91, 90, 90)">Listing: {{listing.title}}</h1>
+            <a class="btn btn-primary" href ="{% url 'watchlist' user.id listing.id %}">Add to Watchlist</a>
+            <div class="listing">
+                {% if listing.img_url.name != "0"  %}
+                    <div>
+                        <img src="../../../media/{{listing.img_url}}" alt ="image">
+                    </div>
+                {% endif %}
+                <div class="description">
+                    {{listing.description}}
+                </div>
+                <div class="price">
+                    <strong>${{listing.price}}</strong>
+                </div>
+                <div class="bid">
+                    {% if noOfBids %}
+                        {% if cuser.id == user.id %}
+                            {{noOfBids}} bid(s) so far. <a href="{% url 'profile' cuser.id %}">you</a> are the current bid.   
+                        {% else %}
+                            {{noOfBids}} bid(s) so far. <a href="{% url 'profile' cuser.id %}">{{cuser.username}}</a> is the current bid. 
+                        {% endif %}    
+                    {% else %}
+                        {{noOfBids}} bid(s) so far. 
+                    {% endif %}   
+                    {% if listing.active == 1 %}
+                        <form action = "{% url 'bid' listing.id user.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="text" class="form-control" name="price">
+                        </form>
+                    {% else %}
+                        <br><p class="btn btn-info">The Creator of this listing has inctivate it</p>
+                    {% endif %}   
+                
+                </div>
+                <div>
+                    <h3>Details</h3>
+                    <ul>
+                        <li>Listed by <a href="{% url 'profile' owner.id %}">{{owner.username}}</a></li>
+                        {% if listing.category %}
+                            <li>Category: {{listing.category}}</li>
+                        {% else %}
+                            <li>Category: No category listed</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div> 
+                    <h3>Comments:</h3>
+                    <form action = "{% url 'comment' listing.id user.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-floating">
+                            <label for="floatingTextarea">Comment:</label>
+                            <textarea class="form-control" placeholder="add a comment.." id="floatingTextarea" name="comment"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Comment</button>
+                    </form>
+                    <div>
+                        {% for com in comments reversed%}
+                            <div class="comment">
+                                <a href ="{% url 'profile' com.cuser.id %}"><h4><i class="material-icons">verified_user</i>{{com.cuser.username}}</h4></a>
+                                <p style="margin-left:20px; padding: 10px; border:1px dotted silver; background-color: rgb(244, 241, 241);">{{com.Comment}}</p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+    {% else %}
+            Not signed in.
+    {% endif %}
+{% endblock %}

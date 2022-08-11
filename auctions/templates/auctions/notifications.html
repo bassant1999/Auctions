@@ -1,0 +1,15 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+        {% if user.is_authenticated %}  
+            {% for notification in notifications %}
+                <div class="row">
+                    <a href= "{% url 'listing' notification.list.id %}" class="col notification">
+                        {{notification.notification}}
+                    </a>      
+                </div>
+            {% endfor %}
+        {% else %}
+            Not signed in.
+        {% endif %}
+{% endblock %}

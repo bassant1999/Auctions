@@ -1,0 +1,22 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+    <div class="container-fluid items">
+        {% for listing in listings reversed %}
+            <div class="row">
+                {% if listing.img_url.name != "0"  %}
+                            <div class="col-md-4">
+                                <img src="../../../media/{{listing.img_url}}" alt ="image" class = "images">
+                                <!-- <img src = "../../static/images/{{listing.image_url}}" alt ="image" class = "images"> -->
+                            </div>
+                {% endif %} 
+                <div class="col-md-8 desc">
+                    <h3 class="head"><a href="{% url 'listing' listing.id %}">{{listing.title}}</a></h3>
+                    <p><strong>Price: </strong>${{listing.price}}</p>
+                    <p class="date">{{listing.date}}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
